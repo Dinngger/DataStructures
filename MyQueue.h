@@ -19,6 +19,8 @@ class MyQueue {
     bool push(const T& d);
     const T& pop();
     const T& peek() const;
+    const T* getData() const;
+    bool exist(const T& d) const;
 };
 
 /**
@@ -67,7 +69,7 @@ bool MyQueue<T>::push(const T& d) {
 
 template<typename T>
 const T& MyQueue<T>::pop() {
-    assert(!empty);
+    // assert(!empty());
     size_t _end = end;
     end++;
     end %= 2 * max_size;
@@ -76,6 +78,28 @@ const T& MyQueue<T>::pop() {
 
 template<typename T>
 const T& MyQueue<T>::peek() const {
-    assert(!full);
+    // assert(!full());
     return data[end];
+}
+
+template<typename T>
+const T* MyQueue<T>::getData() const {
+    return data;
+}
+
+template<typename T>
+bool MyQueue<T>::exist(const T& d) const {
+    if (empty()) {
+        return false;
+    } else {
+        size_t p = end;
+        do {
+            if (data[p] == d) {
+                return true;
+            }
+            p++;
+            p %= 2 * max_size;
+        } while (p != head);
+        return false;
+    }
 }
