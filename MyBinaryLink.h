@@ -26,6 +26,7 @@ class BiLink {
     BiLink() {head = nullptr;}
     ~BiLink();
     int clear() {head = nullptr; return 0;}
+    int setHead(BiNode<T>* pNode) {head = pNode; return 0;}
     BiNode<T>* getHead() {return head;}
     BiNode<T>* append(const T& d, bool left, BiNode<T>* node);
     BiNode<T>* append(BiNode<T>* new_node, bool left, BiNode<T>* node);
