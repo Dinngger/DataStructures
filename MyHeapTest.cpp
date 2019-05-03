@@ -11,17 +11,17 @@
 using namespace std;
 
 int main() {
-    Heap<int> myHeap(10, true);
-    int key, data;
-    for (int i=0; i<5; i++) {
-        cin >> key >> data;
-        cout << "got " << i + 1 << "\n";
-        myHeap.push(key, data);
-    }
-    cout << "give you: ";
-    for (int i=0; i<5; i++) {
-        data = myHeap.pop();
-        cout << data << " ";
+    MyHeap<int> myHeap(10, false);
+    int key, data, op;
+    cin >> op;
+    while (op != 0) {
+        if (op == 1) {
+            cin >> key >> data;
+            myHeap.push(key, data);
+        } else {
+            cout << myHeap.pop() << '\n';
+        }
+        cin >> op;
     }
     return 0;
 }

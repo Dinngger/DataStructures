@@ -5,6 +5,9 @@
  * by Deng Xiaodong - class AI 82
  */
 
+#ifndef __MYBINARYLINK_H
+#define __MYBINARYLINK_H
+
 #include <stddef.h>
 
 template<typename T>
@@ -22,8 +25,10 @@ class BiLink {
   public:
     BiLink() {head = nullptr;}
     ~BiLink();
+    int clear() {head = nullptr; return 0;}
     BiNode<T>* getHead() {return head;}
-    BiNode<T>* append(BiNode<T>* node, bool left, const T& d);
+    BiNode<T>* append(const T& d, bool left, BiNode<T>* node);
+    BiNode<T>* append(BiNode<T>* new_node, bool left, BiNode<T>* node);
 };
 
 template<typename T>
@@ -58,7 +63,7 @@ template<typename T>
  * @param left determins it is leftchild or rightchild.
  * Then return the new Binode.
  */
-BiNode<T>* BiLink<T>::append(BiNode<T>* node, bool left, const T& d) {
+BiNode<T>* BiLink<T>::append(const T& d, bool left, BiNode<T>* node) {
     BiNode<T>* newBiNode = new BiNode<T>;
     newBiNode->data = d;
     newBiNode->leftChild = newBiNode->rightChild = nullptr;
@@ -73,3 +78,19 @@ BiNode<T>* BiLink<T>::append(BiNode<T>* node, bool left, const T& d) {
     }
     return newBiNode;
 }
+
+template<typename T>
+BiNode<T>* BiLink<T>::append(BiNode<T>* new_node, bool left, BiNode<T>* node) {
+    if (node != nullptr) {
+        if (left) {
+            node->leftChild = new_node;
+        } else {
+            node->rightChild = new_node;
+        }
+    } else if (head == nullptr) {
+        head = new_node;
+    }
+    return new_node;
+}
+
+#endif

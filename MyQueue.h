@@ -4,6 +4,9 @@
  * by Deng Xiaodong - class AI 82
  */
 
+#ifndef __MYQUEUE_H
+#define __MYQUEUE_H
+
 #include <stddef.h>
 
 template<typename T>
@@ -103,3 +106,5 @@ bool MyQueue<T>::exist(const T& d) const {
         return false;
     }
 }
+
+#endif

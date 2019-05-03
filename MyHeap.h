@@ -6,6 +6,9 @@
  * by Deng Xiaodong - class AI 82
  */
 
+#ifndef __MYHEAP_H
+#define __MYHEAP_H
+
 #include <stddef.h>
 
 template<typename T>
@@ -15,7 +18,7 @@ struct HeapNode {
 };
 
 template<typename T>
-class Heap {
+class MyHeap {
   private:
     HeapNode<T>* heap;
     const size_t max_size;
@@ -26,8 +29,9 @@ class Heap {
     size_t getRightChild(size_t node) const {return 2 * node + 2;}
     bool siftDown(size_t node);
   public:
-    Heap(size_t max_size, bool maxHeap);
-    ~Heap() {delete[] heap;}
+    MyHeap(size_t max_size, bool maxHeap);
+    ~MyHeap() {delete[] heap;}
+    size_t getSize() {return heap_size;}
     bool push(int key, const T& data);
     T pop();
 };
@@ -37,7 +41,7 @@ class Heap {
  * @param maxHeap determins whether it's max heap or min heap.
  */
 template<typename T>
-Heap<T>::Heap(size_t max_size, bool maxHeap):
+MyHeap<T>::MyHeap(size_t max_size, bool maxHeap):
     max_size(max_size),
     maxHeap(maxHeap) {
     heap = new HeapNode<T>[max_size];
@@ -45,15 +49,16 @@ Heap<T>::Heap(size_t max_size, bool maxHeap):
 }
 
 template<typename T>
-bool Heap<T>::siftDown(size_t node) {
+bool MyHeap<T>::siftDown(size_t node) {
     if (node < heap_size) {
         HeapNode<T> tempNode = heap[node];
         while (getLeftChild(node) < heap_size) {
             size_t child = getLeftChild(node);
-            if (child < heap_size - 1 && heap[child].key < heap[child + 1].key) {
+            if (child < heap_size - 1 && (maxHeap ? heap[child].key < heap[child + 1].key :
+                                                    heap[child].key > heap[child + 1].key)) {
                 child++;
             }
-            if (tempNode.key >= heap[child].key) {
+            if (maxHeap ? tempNode.key >= heap[child].key : tempNode.key <= heap[child].key) {
                 break;
             }
             heap[node] = heap[child];
@@ -72,7 +77,7 @@ bool Heap<T>::siftDown(size_t node) {
  * @return successful or not.
  */
 template<typename T>
-bool Heap<T>::push(int key, const T& data) {
+bool MyHeap<T>::push(int key, const T& data) {
     if (heap_size < max_size) {
         size_t newNode = heap_size;
         heap_size++;
@@ -95,7 +100,7 @@ bool Heap<T>::push(int key, const T& data) {
  * and @return its data.
  */
 template<typename T>
-T Heap<T>::pop(){
+T MyHeap<T>::pop(){
     // assert(heap_size > 0);
     T data = heap[0].data;
     heap_size--;
@@ -105,3 +110,5 @@ T Heap<T>::pop(){
     }
     return data;
 }
+
+#endif

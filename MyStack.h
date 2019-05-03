@@ -4,6 +4,9 @@
  * by Deng Xiaodong - class AI 82
  */
 
+#ifndef __MYSTACK_H
+#define __MYSTACK_H
+
 #include <stddef.h>
 
 template<typename T>
@@ -64,3 +67,5 @@ template<typename T>
 const T* MyStack<T>::getData() const {
     return data;
 }
+
+#endif

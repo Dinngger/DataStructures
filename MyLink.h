@@ -5,6 +5,9 @@
  * by Deng Xiaodong - class AI 82
  */
 
+#ifndef __MYLINK_H
+#define __MYLINK_H
+
 #include <stddef.h>
 
 template<typename T>
@@ -101,3 +104,5 @@ Node<T>* MyLink<T>::append(Node<T>* node, const T& d) {
     }
     return newNode;
 }
+
+#endif
