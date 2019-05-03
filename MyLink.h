@@ -93,6 +93,7 @@ template<typename T>
 Node<T>* MyLink<T>::append(Node<T>* node, const T& d) {
     Node<T>* newNode = new Node<T>;
     newNode->data = d;
+    newNode->next = nullptr;
     if (node != nullptr) {
         node->next = newNode;
     } else if (head == nullptr){

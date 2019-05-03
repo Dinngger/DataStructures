@@ -15,7 +15,7 @@ int main() {
     fin.open("Huffman_Test_file/test.bmp", ios::binary | ios::in);
     char c = fin.get();
     while (!fin.eof()) {
-        cout << (int)c << ' ';
+        cout << hex << (0xff & c) << ' ';
         c = fin.get();
     }
     fin.close();
