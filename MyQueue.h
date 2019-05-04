@@ -21,7 +21,7 @@ class MyQueue {
     bool empty() const;
     bool push(const T& d);
     const T& pop();
-    const T& peek() const;
+    T& peek();
     const T* getData() const;
     bool exist(const T& d) const;
 };
@@ -80,7 +80,7 @@ const T& MyQueue<T>::pop() {
 }
 
 template<typename T>
-const T& MyQueue<T>::peek() const {
+T& MyQueue<T>::peek() {
     // assert(!full());
     return data[end];
 }

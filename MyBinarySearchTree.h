@@ -26,7 +26,7 @@ class MyBinarySearchTree {
     BiNode<KeyNode<NumType, T>>* findParent(NumType id);
   public:
     BiNode<KeyNode<NumType, T>>* getHead() {return tree.getHead();}
-    T operator[](NumType id);
+    T* operator[](NumType id);
     BiNode<KeyNode<NumType, T>>* search(NumType id);
     bool insert(NumType id, T data);
     bool deleteNode(NumType id);
@@ -48,12 +48,12 @@ BiNode<KeyNode<NumType, T>>* MyBinarySearchTree<NumType, T>::search(NumType id) 
 }
 
 template<typename NumType, typename T>
-T MyBinarySearchTree<NumType, T>::operator[](NumType id) {
+T* MyBinarySearchTree<NumType, T>::operator[](NumType id) {
     BiNode<KeyNode<NumType, T>>* node = search(id);
     if (node == nullptr) {
         return nullptr;
     } else {
-        return node->data.data;
+        return &(node->data.data);
     }
 }
 
