@@ -56,13 +56,13 @@ int Encoder::encode(BiNode<HeapNode<char>>* node) {
             decoder[decoder_size++] = node->data.data;
         }
         Code code = {0, 0};
-        cout << id << "\t:\t";
+        //cout << id << "\t:\t";
         for (::size_t i=0; i<stack.getSize(); i++) {
             code.len++;
             code.code = (code.code << 1) | (0x1 & stack.getData()[i]);
-            cout << stack.getData()[i];
+            //cout << stack.getData()[i];
         }
-        cout << endl;
+        //cout << endl;
         BSTree.insert(id, code);
     }
     return 0;
@@ -76,12 +76,17 @@ int main() {
     ::size_t counter[256] = {0,};
     fin.open("Huffman_Test_file/" + file_name, ios::binary | ios::in);
     char c = fin.get();
+    ::size_t file_counter = 0;
     while (!fin.eof()) {
         counter[0xff & c]++;
-        cout << hex << (0xff & c) << ' ';
+        //cout << hex << (0xff & c) << ' ';
         c = fin.get();
+        file_counter++;
+        if (!(file_counter % 10000)) {
+            cout << file_counter / 1000 << " kb have read ...\n";
+        }
     }
-    cout << endl;
+    //cout << endl;
     MyHuffmanTree<char> huffman_tree(256);
     for (::size_t i=0; i<256; i++) {
         if (counter[i] != 0) {
@@ -91,7 +96,7 @@ int main() {
     huffman_tree.addNode((char)0x100, 0); //set as a stop byte.
     huffman_tree.build();
     Encoder encoder(100);
-    cout << "encode table:\n";
+    //cout << "encode table:\n";
     encoder.encode(huffman_tree.topTree()->getHead());
     fstream fout;
     fin.clear();
@@ -100,10 +105,11 @@ int main() {
     const char* decoder = encoder.get_decoder();
     for (::size_t i=0; i<encoder.get_decoder_size(); i++) {
         fout.put(decoder[i]);
-        cout << (0xff & decoder[i]) << ' ';
+        //cout << (0xff & decoder[i]) << ' ';
     }
     Code write_char = {0, 0};
     c = fin.get();
+    file_counter = 0;
     while (!fin.eof()) {
         // cout << (0xff & c) << ' ';
         Code cc = encoder[0xff & c];
@@ -113,9 +119,13 @@ int main() {
             write_char.code = (write_char.code << 1) | (((0x1 << cc.len) & cc.code) >> cc.len);
             if (write_char.len == 8) {
                 fout.put((char)write_char.code);
-                cout << write_char.code << ' ';
+                file_counter++;
+                //cout << write_char.code << ' ';
                 write_char.len = 0;
                 write_char.code = 0x0;
+                if (!(file_counter % 10000)) {
+                    cout << file_counter / 1000 << " kb have write ...\n";
+                }
             }
         }
         c = fin.get();
@@ -127,14 +137,14 @@ int main() {
         write_char.code = (write_char.code << 1) | (((1 << cc.len) & cc.code) >> cc.len);
         if (write_char.len == 8) {
             fout.put((char)write_char.code);
-            cout << write_char.code << ' ';
+            //cout << write_char.code << ' ';
             write_char.len = 0;
             write_char.code = 0x0;
         }
     }
     if (write_char.len > 0) {
         fout.put((char)(write_char.code << (8 - write_char.len)));
-        cout << write_char.code << (8 - write_char.len) << ' ';
+        //cout << write_char.code << (8 - write_char.len) << ' ';
     }
     fout.close();
     fin.close();
